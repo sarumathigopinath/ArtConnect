@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Gifts - Art Connect</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- EMAILJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
+
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "SFYaSWhW68DplKlyb"
+            });
+        })();
+    </script>
+
+    <style>
+        /* PRODUCT DETAILS POPUP */
+
+        #personalizedDetail {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(40, 25, 35, 0.35);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .personalized-modal-card {
+            width: 100%;
+            max-width: 900px;
+            min-height: 550px;
+            background: #fffdfd;
+            border-radius: 28px;
+            display: grid;
+            grid-template-columns: 40% 60%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .personalized-modal-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .personalized-modal-image img {
+            width: 100%;
+            height: 100%;
+            max-height: 520px;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        .personalized-modal-content {
+            padding: 45px 45px 35px 25px;
+            position: relative;
+        }
+
+        .personalized-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #f8e9ef;
+            color: #8c5269;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .personalized-tagline {
+            color: #b58b9d;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .personalized-modal-content h1 {
+            font-size: 35px;
+            color: #593747;
+            margin-bottom: 18px;
+        }
+
+        .personalized-modal-price {
+            color: #b44e76;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .personalized-field-title {
+            display: block;
+            font-size: 16px;
+            color: #696060;
+            margin: 20px 0 10px;
+        }
+
+        /* QUANTITY */
+
+        .personalized-quantity-box {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            background: #f6e8ee;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .personalized-quantity-box button {
+            width: 52px;
+            height: 48px;
+            border: none;
+            background: #f6e8ee;
+            color: #9d5874;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .personalized-quantity-box input {
+            width: 55px;
+            height: 48px;
+            border: none;
+            outline: none;
+            background: #fffafa;
+            text-align: center;
+            font-size: 18px;
+            color: #55434b;
+        }
+
+        /* CUSTOMIZATION */
+
+        #personalizedCustomization {
+            width: 100%;
+            min-height: 135px;
+            padding: 18px;
+            border: 1px solid #e5d4dd;
+            border-radius: 22px;
+            outline: none;
+            resize: vertical;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+            background: #fffdfd;
+            color: #594b52;
+            box-sizing: border-box;
+        }
+
+        #personalizedCustomization:focus {
+            border-color: #c77c9a;
+        }
+
+        /* BUTTONS */
+
+        .personalized-action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        .personalized-action-buttons button {
+            width: 100%;
+            padding: 17px;
+            border: none;
+            border-radius: 35px;
+            background: linear-gradient(90deg, #d58ba7, #b85b80);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .personalized-action-buttons button:hover {
+            transform: scale(1.02);
+            background: #a94c72;
+        }
+
+        .personalized-action-buttons button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ORDER MESSAGE */
+
+        #personalizedOrderMessage {
+            color: #8b5570;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+
+        /* MOBILE VIEW */
+
+        @media(max-width: 700px) {
+
+            #personalizedDetail {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .personalized-modal-card {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+                margin: 10px auto;
+            }
+
+            .personalized-modal-image {
+                height: 250px;
+                padding: 15px;
+            }
+
+            .personalized-modal-content {
+                padding: 25px;
+            }
+
+            .personalized-modal-content h1 {
+                font-size: 27px;
+            }
+
+            .personalized-tagline {
+                margin-bottom: 20px;
+            }
+
+            .personalized-close {
+                top: 12px;
+                right: 12px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">Art Connect</div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+    </div>
+
+</nav>
+
+
+<!-- PERSONALIZED GIFTS PRODUCTS -->
+
+<section class="personalized-section" id="personalizedProducts">
+
+    <div class="personalized-heading">
+        <h1>Personalized Gifts</h1>
+        <p>Make every gift special with a personal touch ♡</p>
+    </div>
+
+    <div class="personalized-grid">
+
+        <div class="personalized-card" onclick="openPersonalized(0)">
+            <img src="images/personalized1.jpg">
+            <h3>Personalized Photo Frame</h3>
+            <p>₹699</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(1)">
+            <img src="images/personalized2.jpg">
+            <h3>Custom Name Frame</h3>
+            <p>₹799</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(2)">
+            <img src="images/personalized3.jpg">
+            <h3>Couple Photo Frame</h3>
+            <p>₹899</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(3)">
+            <img src="images/personalized4.jpg">
+            <h3>Personalized Keychain</h3>
+            <p>₹299</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(4)">
+            <img src="images/personalized5.jpg">
+            <h3>Custom Coffee Mug</h3>
+            <p>₹399</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(5)">
+            <img src="images/personalized6.jpg">
+            <h3>Personalized Cushion</h3>
+            <p>₹599</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(6)">
+            <img src="images/personalized7.jpg">
+            <h3>Custom Name Bottle</h3>
+            <p>₹549</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(7)">
+            <img src="images/personalized8.jpg">
+            <h3>Personalized Diary</h3>
+            <p>₹499</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(8)">
+            <img src="images/personalized9.jpg">
+            <h3>Custom Birthday Frame</h3>
+            <p>₹749</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(9)">
+            <img src="images/personalized10.jpg">
+            <h3>Personalized Spotify Frame</h3>
+            <p>₹699</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(10)">
+            <img src="images/personalized11.jpg">
+            <h3>Custom Couple Plaque</h3>
+            <p>₹999</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(11)">
+            <img src="images/personalized12.jpg">
+            <h3>Personalized LED Frame</h3>
+            <p>₹1199</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(12)">
+            <img src="images/personalized13.jpg">
+            <h3>Custom Friendship Gift</h3>
+            <p>₹799</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(13)">
+            <img src="images/personalized14.jpg">
+            <h3>Personalized Anniversary Gift</h3>
+            <p>₹1099</p>
+        </div>
+
+        <div class="personalized-card" onclick="openPersonalized(14)">
+            <img src="images/personalized15.jpg">
+            <h3>Special Custom Gift Box</h3>
+            <p>₹1499</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PRODUCT DETAIL POPUP -->
+
+<section id="personalizedDetail">
+
+    <div class="personalized-modal-card">
+
+        <!-- PRODUCT IMAGE -->
+
+        <div class="personalized-modal-image">
+
+            <img id="personalizedMainImage" src="" alt="Personalized Gift">
+
+        </div>
+
+
+        <!-- PRODUCT DETAILS -->
+
+        <div class="personalized-modal-content">
+
+            <button class="personalized-close"
+                    onclick="backToPersonalized()">
+                ×
+            </button>
+
+            <p class="personalized-tagline">
+                Handmade with love ♡
+            </p>
+
+            <h1 id="personalizedName"></h1>
+
+            <div class="personalized-modal-price"
+                 id="personalizedPrice">
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <label class="personalized-field-title">
+                Quantity
+            </label>
+
+            <div class="personalized-quantity-box">
+
+                <button onclick="changePersonalizedQuantity(-1)">
+                    −
+                </button>
+
+                <input
+                    type="number"
+                    id="personalizedQuantity"
+                    value="1"
+                    min="1"
+                    readonly
+                >
+
+                <button onclick="changePersonalizedQuantity(1)">
+                    +
+                </button>
+
+            </div>
+
+
+            <!-- CUSTOMIZATION -->
+
+            <label class="personalized-field-title">
+                Your Customization
+            </label>
+
+            <textarea
+                id="personalizedCustomization"
+                placeholder="Example: Add a star, change colour, add name..."
+            ></textarea>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="personalized-action-buttons">
+
+                <button onclick="addPersonalizedCart()">
+                    Add to Cart ♡
+                </button>
+
+                <button id="personalizedBuyButton" onclick="buyPersonalized()">
+                    Order Now ♡
+                </button>
+
+            </div>
+
+            <!-- ORDER MESSAGE -->
+
+            <p id="personalizedOrderMessage"></p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+    <p>© 2026 Art Connect | Made with ♡</p>
+</footer>
+
+
+<script>
+
+const personalizedProducts = [
+
+    {
+        name: "Personalized Photo Frame",
+        price: 699,
+        image: "images/personalized1.jpg"
+    },
+
+    {
+        name: "Custom Name Frame",
+        price: 799,
+        image: "images/personalized2.jpg"
+    },
+
+    {
+        name: "Couple Photo Frame",
+        price: 899,
+        image: "images/personalized3.jpg"
+    },
+
+    {
+        name: "Personalized Keychain",
+        price: 299,
+        image: "images/personalized4.jpg"
+    },
+
+    {
+        name: "Custom Coffee Mug",
+        price: 399,
+        image: "images/personalized5.jpg"
+    },
+
+    {
+        name: "Personalized Cushion",
+        price: 599,
+        image: "images/personalized6.jpg"
+    },
+
+    {
+        name: "Custom Name Bottle",
+        price: 549,
+        image: "images/personalized7.jpg"
+    },
+
+    {
+        name: "Personalized Diary",
+        price: 499,
+        image: "images/personalized8.jpg"
+    },
+
+    {
+        name: "Custom Birthday Frame",
+        price: 749,
+        image: "images/personalized9.jpg"
+    },
+
+    {
+        name: "Personalized Spotify Frame",
+        price: 699,
+        image: "images/personalized10.jpg"
+    },
+
+    {
+        name: "Custom Couple Plaque",
+        price: 999,
+        image: "images/personalized11.jpg"
+    },
+
+    {
+        name: "Personalized LED Frame",
+        price: 1199,
+        image: "images/personalized12.jpg"
+    },
+
+    {
+        name: "Custom Friendship Gift",
+        price: 799,
+        image: "images/personalized13.jpg"
+    },
+
+    {
+        name: "Personalized Anniversary Gift",
+        price: 1099,
+        image: "images/personalized14.jpg"
+    },
+
+    {
+        name: "Special Custom Gift Box",
+        price: 1499,
+        image: "images/personalized15.jpg"
+    }
+
+];
+
+
+let selectedPersonalized = 0;
+
+
+// OPEN PRODUCT DETAILS
+
+function openPersonalized(index) {
+
+    selectedPersonalized = index;
+
+    const product = personalizedProducts[index];
+
+    document.getElementById("personalizedMainImage").src =
+        product.image;
+
+    document.getElementById("personalizedName").innerText =
+        product.name;
+
+    document.getElementById("personalizedPrice").innerText =
+        "₹" + product.price;
+
+    document.getElementById("personalizedQuantity").value = 1;
+
+    document.getElementById("personalizedCustomization").value = "";
+
+    document.getElementById("personalizedOrderMessage").innerHTML = "";
+
+    document.getElementById("personalizedBuyButton").disabled = false;
+
+    document.getElementById("personalizedBuyButton").innerText =
+        "Order Now ♡";
+
+    document.getElementById("personalizedDetail").style.display =
+        "flex";
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+// CLOSE PRODUCT DETAILS
+
+function backToPersonalized() {
+
+    document.getElementById("personalizedDetail").style.display =
+        "none";
+
+    document.body.style.overflow = "auto";
+
+}
+
+
+// CHANGE QUANTITY
+
+function changePersonalizedQuantity(change) {
+
+    const quantityInput =
+        document.getElementById("personalizedQuantity");
+
+    let quantity = parseInt(quantityInput.value);
+
+    quantity = quantity + change;
+
+    if (quantity < 1) {
+        quantity = 1;
+    }
+
+    quantityInput.value = quantity;
+
+}
+
+
+// ADD TO CART
+
+function addPersonalizedCart() {
+
+    const product = personalizedProducts[selectedPersonalized];
+
+    const quantity = parseInt(
+        document.getElementById("personalizedQuantity").value
+    );
+
+    const customization =
+        document.getElementById("personalizedCustomization").value;
+
+    const total = product.price * quantity;
+
+    alert(
+        "Added to Cart Successfully! ♡\n\n" +
+        "Product: " + product.name +
+        "\nPrice: ₹" + product.price +
+        "\nQuantity: " + quantity +
+        "\nTotal: ₹" + total +
+        "\nCustomization: " +
+        (customization || "No customization")
+    );
+
+}
+
+
+// ORDER NOW - EMAILJS INTEGRATION
+
+async function buyPersonalized() {
+
+    const product = personalizedProducts[selectedPersonalized];
+
+    const quantity = parseInt(
+        document.getElementById("personalizedQuantity").value
+    );
+
+    const customization =
+        document.getElementById("personalizedCustomization").value;
+
+    const total = product.price * quantity;
+
+    const orderId =
+        "PG" + Math.floor(100000 + Math.random() * 900000);
+
+    const buyButton =
+        document.getElementById("personalizedBuyButton");
+
+    const message =
+        document.getElementById("personalizedOrderMessage");
+
+
+    // DISABLE BUTTON WHILE SENDING
+
+    buyButton.disabled = true;
+
+    buyButton.innerText = "Sending Order...";
+
+    message.innerHTML =
+        "Please wait... Sending your order details ♡";
+
+
+    // EMAIL TEMPLATE PARAMETERS
+
+    const templateParams = {
+
+        product_name: product.name,
+
+        product_price: product.price,
+
+        product_quantity: quantity,
+
+        total_price: total,
+
+        customization: customization || "None"
+
+    };
+
+
+    try {
+
+        // SEND EMAIL
+
+        await emailjs.send(
+
+            "service_nko8lyd",
+
+            "template_uua1ug9",
+
+            templateParams
+
+        );
+
+
+        // SUCCESS MESSAGE
+
+        message.innerHTML =
+
+            "✓ Order details sent successfully! ♡" +
+
+            "<br>Product: " + product.name +
+
+            "<br>Quantity: " + quantity +
+
+            "<br>Total: ₹" + total +
+
+            "<br>Customization: " + (customization || "None") +
+
+            "<br>Order ID: <strong>" + orderId + "</strong>";
+
+
+        buyButton.innerText = "Order Sent ✓";
+
+    }
+
+
+    catch (error) {
+
+        console.error("EmailJS Error:", error);
+
+        message.innerHTML =
+            "✗ Unable to send order. Please try again!";
+
+        buyButton.disabled = false;
+
+        buyButton.innerText = "Order Now ♡";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

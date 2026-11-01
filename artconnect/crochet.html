@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crochet | Art Connect</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- EMAILJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
+
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "SFYaSWhW68DplKlyb"
+            });
+        })();
+    </script>
+
+
+    <style>
+
+    /* PRODUCT DETAILS POPUP */
+
+    .crochet-detail {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(40, 25, 35, 0.55);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+
+    .crochet-detail-container {
+        position: relative;
+        width: 100%;
+        max-width: 1050px;
+        min-height: 520px;
+        background: #fffafc;
+        border-radius: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        overflow: hidden;
+        margin: auto;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    }
+
+
+    /* CLOSE BUTTON */
+
+    .crochet-close {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        border: none;
+        background: transparent;
+        color: #a65d79;
+        font-size: 30px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+
+    /* PRODUCT IMAGE */
+
+    .crochet-detail-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        background: #f9edf2;
+    }
+
+
+    .crochet-detail-image img {
+        width: 100%;
+        height: 450px;
+        object-fit: contain;
+        border-radius: 20px;
+    }
+
+
+    /* PRODUCT CONTENT */
+
+    .crochet-detail-content {
+        padding: 55px 45px 35px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .crochet-detail-content h1 {
+        font-family: Georgia, serif;
+        font-size: 42px;
+        color: #795267;
+        margin-bottom: 15px;
+    }
+
+
+    .crochet-price {
+        font-size: 28px;
+        font-weight: bold;
+        color: #b56c8c;
+        margin-bottom: 25px;
+    }
+
+
+    /* QUANTITY */
+
+    .crochet-quantity-title {
+        font-size: 16px;
+        color: #76576a;
+        margin-bottom: 12px;
+    }
+
+
+    .crochet-quantity-box {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        width: 155px;
+        height: 48px;
+        background: #f7eaf0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+
+    .crochet-quantity-box button {
+        width: 45px;
+        height: 48px;
+        border: none;
+        background: #f3dce6;
+        color: #85536b;
+        font-size: 23px;
+        cursor: pointer;
+    }
+
+
+    .crochet-quantity-box button:hover {
+        background: #e9c5d5;
+    }
+
+
+    .crochet-quantity-box input {
+        width: 65px;
+        height: 48px;
+        border: none;
+        outline: none;
+        background: transparent;
+        text-align: center;
+        font-size: 18px;
+        color: #69485b;
+    }
+
+
+    /* CUSTOMIZATION */
+
+    .crochet-custom-title {
+        font-size: 16px;
+        color: #76576a;
+        margin-bottom: 12px;
+    }
+
+
+    .crochet-custom-input {
+        width: 100%;
+        min-height: 150px;
+        padding: 18px;
+        border: 1px solid #e8dce2;
+        border-radius: 15px;
+        background: #fff;
+        font-family: inherit;
+        font-size: 15px;
+        outline: none;
+        resize: vertical;
+        box-sizing: border-box;
+        margin-bottom: 25px;
+    }
+
+
+    .crochet-custom-input:focus {
+        border-color: #c47e9d;
+    }
+
+
+    /* BUTTONS */
+
+    .crochet-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 5px;
+    }
+
+
+    .crochet-cart,
+    .crochet-buy {
+        width: 100%;
+        padding: 17px;
+        border: none;
+        border-radius: 35px;
+        background: #bd7695;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+
+    .crochet-cart:hover,
+    .crochet-buy:hover {
+        background: #985873;
+        transform: translateY(-2px);
+    }
+
+
+    /* ORDER MESSAGE */
+
+    .crochet-order-message {
+        color: #8b5570;
+        font-size: 15px;
+        line-height: 1.8;
+        margin-top: 18px;
+    }
+
+
+    /* RESPONSIVE DESIGN */
+
+    @media(max-width: 750px) {
+
+        .crochet-detail {
+            padding: 12px;
+            align-items: flex-start;
+        }
+
+        .crochet-detail-container {
+            grid-template-columns: 1fr;
+            max-width: 480px;
+            margin: auto;
+        }
+
+        .crochet-detail-image {
+            padding: 20px;
+            min-height: 250px;
+        }
+
+        .crochet-detail-image img {
+            height: 250px;
+        }
+
+        .crochet-detail-content {
+            padding: 25px;
+        }
+
+        .crochet-detail-content h1 {
+            font-size: 30px;
+        }
+
+        .crochet-price {
+            font-size: 24px;
+        }
+
+        .crochet-close {
+            top: 10px;
+            right: 15px;
+        }
+
+    }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- DECORATIONS -->
+
+    <div class="crochet-decor crochet-heart1">♡</div>
+
+    <div class="crochet-decor crochet-heart2">♡</div>
+
+    <div class="crochet-decor crochet-teddy1">🧸</div>
+
+    <div class="crochet-decor crochet-teddy2">🧸</div>
+
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Art Connect
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- CROCHET PRODUCTS -->
+
+    <section class="crochet-section" id="crochetProducts">
+
+        <h1>Crochet Collection</h1>
+
+        <p class="crochet-subtitle">
+            Handmade crochet creations made with love ♡
+        </p>
+
+
+        <div class="crochet-grid" id="crochetGrid">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- PRODUCT DETAILS POPUP -->
+
+    <section class="crochet-detail" id="crochetDetail"
+        onclick="closeCrochetOutside(event)">
+
+
+        <div class="crochet-detail-container"
+            onclick="event.stopPropagation()">
+
+
+            <!-- CLOSE BUTTON -->
+
+            <button class="crochet-close"
+                onclick="backToCrochet()">
+
+                ×
+
+            </button>
+
+
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="crochet-detail-image">
+
+                <img id="crochetDetailImage"
+                    src=""
+                    alt="Crochet Product">
+
+            </div>
+
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="crochet-detail-content">
+
+
+                <p style="color:#a8788e; margin-bottom:20px;">
+                    Handmade with love ♡
+                </p>
+
+
+                <h1 id="crochetDetailName"></h1>
+
+
+                <div class="crochet-price"
+                    id="crochetDetailPrice">
+
+                </div>
+
+
+
+                <!-- QUANTITY -->
+
+                <p class="crochet-quantity-title">
+
+                    Quantity
+
+                </p>
+
+
+                <div class="crochet-quantity-box">
+
+
+                    <button onclick="changeQuantity(-1)">
+
+                        −
+
+                    </button>
+
+
+                    <input type="number"
+                        id="crochetQuantity"
+                        value="1"
+                        min="1"
+                        readonly>
+
+
+                    <button onclick="changeQuantity(1)">
+
+                        +
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- CUSTOMIZATION -->
+
+                <p class="crochet-custom-title">
+
+                    Your Customization
+
+                </p>
+
+
+                <textarea
+                    id="crochetCustomization"
+                    class="crochet-custom-input"
+                    placeholder="Example: Add a star, change colour, add name...">
+
+                </textarea>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="crochet-buttons">
+
+
+                    <button
+                        class="crochet-cart"
+                        onclick="addCrochetCart()">
+
+                        Add to Cart ♡
+
+                    </button>
+
+
+
+                    <button
+                        class="crochet-buy"
+                        id="crochetBuyButton"
+                        onclick="buyCrochet()">
+
+                        Order Now ♡
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- MESSAGE -->
+
+                <p id="crochetOrderMessage"
+                    class="crochet-order-message">
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Art Connect | Made with ♡
+        </p>
+
+    </footer>
+
+
+
+<script>
+
+
+// ALL CROCHET PRODUCTS
+
+
+const crochetProducts = [
+
+    {
+        name: "Cozy Scarf",
+        price: 899,
+        image: "scarf.jpg"
+    },
+
+    {
+        name: "Bandana",
+        price: 399,
+        image: "bandana.jpg"
+    },
+
+    {
+        name: "Heart Keychain",
+        price: 299,
+        image: "heart.jpg"
+    },
+
+    {
+        name: "Cherry Keychain",
+        price: 799,
+        image: "cherry.jpg"
+    },
+
+    {
+        name: "Bow Keychain",
+        price: 699,
+        image: "bow.jpg"
+    },
+
+    {
+        name: "Sunflower Keychain",
+        price: 999,
+        image: "sunflower.jpg"
+    },
+
+    {
+        name: "Chick Keychain",
+        price: 249,
+        image: "chick.jpg"
+    },
+
+    {
+        name: "White Bell Flower",
+        price: 349,
+        image: "whitebellflower.jpg"
+    },
+
+    {
+        name: "Sunflower Bouquet",
+        price: 449,
+        image: "sunflowerbouquet.jpg"
+    },
+
+    {
+        name: "EarPhone Pouch",
+        price: 1299,
+        image: "earphonepouch.jpg"
+    },
+
+    {
+        name: "Nazar Keychain",
+        price: 299,
+        image: "nazar.jpg"
+    },
+
+    {
+        name: "Bumble HoneyBee Keychain",
+        price: 499,
+        image: "bumblehoneybee.jpg"
+    },
+
+    {
+        name: "Strawberry Keychain",
+        price: 599,
+        image: "strawberry.jpg"
+    },
+
+    {
+        name: "Turtle Keychain",
+        price: 749,
+        image: "turtle.jpg"
+    },
+
+    {
+        name: "Octopus Keychain",
+        price: 699,
+        image: "octopus.jpg"
+    },
+
+    {
+        name: "Flower Keychain",
+        price: 899,
+        image: "flower.jpg"
+    },
+
+    {
+        name: "Bookmarks",
+        price: 549,
+        image: "bookmarks.jpg"
+    },
+
+    {
+        name: "Mini Tulip Bouquet",
+        price: 999,
+        image: "minitulipbouquet.jpg"
+    },
+
+    {
+        name: "Mr Bean Teddy",
+        price: 1199,
+        image: "mrbeanteddy.jpg"
+    },
+
+    {
+        name: "Penguin Keychain",
+        price: 1499,
+        image: "penguin.jpg"
+    }
+
+];
+
+
+
+// DISPLAY PRODUCTS AUTOMATICALLY
+
+
+const crochetGrid =
+    document.getElementById("crochetGrid");
+
+
+crochetProducts.forEach((product, index) => {
+
+    const card = document.createElement("div");
+
+    card.className = "crochet-card";
+
+    card.onclick = function() {
+
+        openCrochet(index);
+
+    };
+
+
+    const image = document.createElement("img");
+
+    image.src = product.image;
+
+    image.alt = product.name;
+
+
+    const title = document.createElement("h3");
+
+    title.innerText = product.name;
+
+
+    const price = document.createElement("p");
+
+    price.innerText = "₹" + product.price;
+
+
+    card.appendChild(image);
+
+    card.appendChild(title);
+
+    card.appendChild(price);
+
+
+    crochetGrid.appendChild(card);
+
+});
+
+
+
+// SELECTED PRODUCT
+
+
+let selectedCrochet = null;
+
+
+
+// OPEN PRODUCT DETAILS
+
+
+function openCrochet(index) {
+
+    selectedCrochet = crochetProducts[index];
+
+
+    document.getElementById("crochetProducts")
+        .style.display = "none";
+
+
+    const detail =
+        document.getElementById("crochetDetail");
+
+
+    detail.style.display = "flex";
+
+
+    document.getElementById("crochetDetailImage").src =
+        selectedCrochet.image;
+
+
+    document.getElementById("crochetDetailName").innerText =
+        selectedCrochet.name;
+
+
+    document.getElementById("crochetDetailPrice").innerText =
+        "₹" + selectedCrochet.price;
+
+
+    document.getElementById("crochetQuantity").value = 1;
+
+
+    document.getElementById("crochetCustomization").value = "";
+
+
+    document.getElementById("crochetOrderMessage").innerHTML = "";
+
+
+    document.getElementById("crochetBuyButton").disabled = false;
+
+    document.getElementById("crochetBuyButton").innerText =
+        "Order Now ♡";
+
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+
+// CHANGE QUANTITY
+
+
+function changeQuantity(value) {
+
+    const quantityInput =
+        document.getElementById("crochetQuantity");
+
+
+    let quantity = parseInt(quantityInput.value);
+
+
+    quantity = quantity + value;
+
+
+    if (quantity < 1) {
+
+        quantity = 1;
+
+    }
+
+
+    quantityInput.value = quantity;
+
+}
+
+
+
+// CLOSE PRODUCT DETAILS
+
+
+function backToCrochet() {
+
+    document.getElementById("crochetDetail")
+        .style.display = "none";
+
+
+    document.getElementById("crochetProducts")
+        .style.display = "block";
+
+
+    document.body.style.overflow = "auto";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+// CLOSE WHEN CLICKING OUTSIDE
+
+
+function closeCrochetOutside(event) {
+
+    if (event.target.id === "crochetDetail") {
+
+        backToCrochet();
+
+    }
+
+}
+
+
+
+// ADD TO CART
+
+
+function addCrochetCart() {
+
+
+    const name = selectedCrochet.name;
+
+
+    const quantity =
+        parseInt(document.getElementById("crochetQuantity").value);
+
+
+    const customization =
+        document.getElementById("crochetCustomization").value;
+
+
+    const cartItem = {
+
+        name: name,
+
+        price: selectedCrochet.price,
+
+        image: selectedCrochet.image,
+
+        quantity: quantity,
+
+        customization: customization
+
+    };
+
+
+    let cart = JSON.parse(localStorage.getItem("crochetCart")) || [];
+
+
+    cart.push(cartItem);
+
+
+    localStorage.setItem("crochetCart", JSON.stringify(cart));
+
+
+    document.getElementById("crochetOrderMessage").innerHTML =
+
+        "✓ " + name + " × " + quantity +
+
+        "<br>Successfully added to cart! ♡";
+
+}
+
+
+
+// BUY NOW - EMAILJS INTEGRATION
+
+
+async function buyCrochet() {
+
+
+    const name = selectedCrochet.name;
+
+
+    const quantity =
+        parseInt(document.getElementById("crochetQuantity").value);
+
+
+    const customization =
+        document.getElementById("crochetCustomization").value;
+
+
+    const total =
+        selectedCrochet.price * quantity;
+
+
+    const orderId =
+        "CR" + Math.floor(100000 + Math.random() * 900000);
+
+
+    const buyButton =
+        document.getElementById("crochetBuyButton");
+
+
+    const message =
+        document.getElementById("crochetOrderMessage");
+
+
+    // DISABLE BUTTON WHILE SENDING
+
+    buyButton.disabled = true;
+
+    buyButton.innerText = "Sending Order...";
+
+
+    message.innerHTML = "Please wait... Sending your order details ♡";
+
+
+    // EMAIL TEMPLATE PARAMETERS
+
+    const templateParams = {
+
+        product_name: name,
+
+        product_price: selectedCrochet.price,
+
+        product_quantity: quantity,
+
+        total_price: total,
+
+        customization: customization || "None"
+
+    };
+
+
+    try {
+
+
+        // SEND EMAIL
+
+        await emailjs.send(
+
+            "service_nko8lyd",
+
+            "template_uua1ug9",
+
+            templateParams
+
+        );
+
+
+        // SUCCESS MESSAGE
+
+        message.innerHTML =
+
+            "✓ Order details sent successfully! ♡" +
+
+            "<br>Product: " + name +
+
+            "<br>Quantity: " + quantity +
+
+            "<br>Total: ₹" + total +
+
+            "<br>Customization: " + (customization || "None") +
+
+            "<br>Order ID: <strong>" + orderId + "</strong>";
+
+
+        buyButton.innerText = "Order Sent ✓";
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error("EmailJS Error:", error);
+
+
+        message.innerHTML =
+
+            "✗ Unable to send order. Please try again!";
+
+
+        buyButton.disabled = false;
+
+        buyButton.innerText = "Order Now ♡";
+
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

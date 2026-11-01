@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouquets - Art Connect</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- EMAILJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
+
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "SFYaSWhW68DplKlyb"
+            });
+        })();
+    </script>
+
+    <style>
+
+        /* PRODUCT POPUP */
+
+        #bouquetDetail {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(40, 25, 35, 0.35);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .bouquet-modal-card {
+            width: 100%;
+            max-width: 900px;
+            min-height: 550px;
+            background: #fffdfd;
+            border-radius: 28px;
+            display: grid;
+            grid-template-columns: 40% 60%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        /* PRODUCT IMAGE */
+
+        .bouquet-modal-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .bouquet-modal-image img {
+            width: 100%;
+            height: 100%;
+            max-height: 520px;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        /* PRODUCT CONTENT */
+
+        .bouquet-modal-content {
+            padding: 45px 45px 35px 25px;
+            position: relative;
+        }
+
+        .bouquet-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #f8e9ef;
+            color: #8c5269;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .bouquet-tagline {
+            color: #b58b9d;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .bouquet-modal-content h1 {
+            font-size: 35px;
+            color: #593747;
+            margin-bottom: 18px;
+        }
+
+        .bouquet-modal-price {
+            color: #b44e76;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        /* QUANTITY */
+
+        .bouquet-field-title {
+            display: block;
+            font-size: 16px;
+            color: #696060;
+            margin: 20px 0 10px;
+        }
+
+        .bouquet-quantity-box {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            background: #f6e8ee;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .bouquet-quantity-box button {
+            width: 52px;
+            height: 48px;
+            border: none;
+            background: #f6e8ee;
+            color: #9d5874;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .bouquet-quantity-box input {
+            width: 55px;
+            height: 48px;
+            border: none;
+            outline: none;
+            background: #fffafa;
+            text-align: center;
+            font-size: 18px;
+            color: #55434b;
+        }
+
+        /* CUSTOMIZATION */
+
+        #bouquetCustomization {
+            width: 100%;
+            min-height: 135px;
+            padding: 18px;
+            border: 1px solid #e5d4dd;
+            border-radius: 22px;
+            outline: none;
+            resize: vertical;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+            background: #fffdfd;
+            color: #594b52;
+            box-sizing: border-box;
+        }
+
+        #bouquetCustomization:focus {
+            border-color: #c77c9a;
+        }
+
+        /* ACTION BUTTONS */
+
+        .bouquet-action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        .bouquet-action-buttons button {
+            width: 100%;
+            padding: 17px;
+            border: none;
+            border-radius: 35px;
+            background: linear-gradient(90deg, #d58ba7, #b85b80);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .bouquet-action-buttons button:hover {
+            transform: scale(1.02);
+            background: #a94c72;
+        }
+
+        /* EMAIL STATUS MESSAGE */
+
+        #bouquetOrderMessage {
+            margin-top: 15px;
+            text-align: center;
+            color: #8c5269;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .bouquet-action-buttons button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* MOBILE VIEW */
+
+        @media(max-width: 700px) {
+
+            #bouquetDetail {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .bouquet-modal-card {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+                margin: 10px auto;
+            }
+
+            .bouquet-modal-image {
+                height: 250px;
+                padding: 15px;
+            }
+
+            .bouquet-modal-content {
+                padding: 25px;
+            }
+
+            .bouquet-modal-content h1 {
+                font-size: 27px;
+            }
+
+            .bouquet-tagline {
+                margin-bottom: 20px;
+            }
+
+            .bouquet-close {
+                top: 12px;
+                right: 12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">Art Connect</div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+    </div>
+
+</nav>
+
+
+<!-- BOUQUETS PRODUCTS -->
+
+<section class="bouquet-section" id="bouquetProducts">
+
+    <div class="bouquet-heading">
+        <h1>Bouquets</h1>
+        <p>Beautiful handmade bouquets made with love ♡</p>
+    </div>
+
+    <div class="bouquet-grid">
+
+        <div class="bouquet-card" onclick="openBouquet(0)">
+            <img src="images/bouquet1.jpg">
+            <h3>Chocolate Bouquet</h3>
+            <p>₹799</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(1)">
+            <img src="images/bouquet2.jpg">
+            <h3>Rose Bouquet</h3>
+            <p>₹699</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(2)">
+            <img src="images/bouquet3.jpg">
+            <h3>Satin Ribbon Bouquet</h3>
+            <p>₹899</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(3)">
+            <img src="images/bouquet4.jpg">
+            <h3>Polaroid Bouquet</h3>
+            <p>₹849</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(4)">
+            <img src="images/bouquet5.jpg">
+            <h3>Flower & Chocolate Bouquet</h3>
+            <p>₹999</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(5)">
+            <img src="images/bouquet6.jpg">
+            <h3>Money Bouquet</h3>
+            <p>₹1099</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(6)">
+            <img src="images/bouquet7.jpg">
+            <h3>Mini Cute Bouquet</h3>
+            <p>₹599</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(7)">
+            <img src="images/bouquet8.jpg">
+            <h3>Birthday Bouquet</h3>
+            <p>₹899</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(8)">
+            <img src="images/bouquet9.jpg">
+            <h3>Couple Bouquet</h3>
+            <p>₹999</p>
+        </div>
+
+        <div class="bouquet-card" onclick="openBouquet(9)">
+            <img src="images/bouquet10.jpg">
+            <h3>Custom Gift Bouquet</h3>
+            <p>₹1299</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PRODUCT DETAIL POPUP -->
+
+<section id="bouquetDetail">
+
+    <div class="bouquet-modal-card">
+
+        <!-- PRODUCT IMAGE -->
+
+        <div class="bouquet-modal-image">
+
+            <img id="bouquetMainImage" src="" alt="Bouquet">
+
+        </div>
+
+
+        <!-- PRODUCT DETAILS -->
+
+        <div class="bouquet-modal-content">
+
+            <button class="bouquet-close"
+                    onclick="backToBouquets()">
+                ×
+            </button>
+
+            <p class="bouquet-tagline">
+                Handmade with love ♡
+            </p>
+
+            <h1 id="bouquetName"></h1>
+
+            <div class="bouquet-modal-price"
+                 id="bouquetPrice">
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <label class="bouquet-field-title">
+                Quantity
+            </label>
+
+            <div class="bouquet-quantity-box">
+
+                <button onclick="changeBouquetQuantity(-1)">
+                    −
+                </button>
+
+                <input
+                    type="number"
+                    id="bouquetQuantity"
+                    value="1"
+                    min="1"
+                    readonly
+                >
+
+                <button onclick="changeBouquetQuantity(1)">
+                    +
+                </button>
+
+            </div>
+
+
+            <!-- CUSTOMIZATION -->
+
+            <label class="bouquet-field-title">
+                Your Customization
+            </label>
+
+            <textarea
+                id="bouquetCustomization"
+                placeholder="Example: Add a star, change colour, add name..."
+            ></textarea>
+
+
+            <!-- BUTTONS -->
+
+            <div class="bouquet-action-buttons">
+
+                <button onclick="addBouquetCart()">
+                    Add to Cart ♡
+                </button>
+
+                <button id="bouquetBuyButton" onclick="buyBouquet()">
+                    Order Now ♡
+                </button>
+
+            </div>
+
+            <!-- EMAIL STATUS -->
+
+            <p id="bouquetOrderMessage"></p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+const bouquetProducts = [
+
+    {
+        name: "Chocolate Bouquet",
+        price: 799,
+        image: "images/bouquet1.jpg"
+    },
+
+    {
+        name: "Rose Bouquet",
+        price: 699,
+        image: "images/bouquet2.jpg"
+    },
+
+    {
+        name: "Satin Ribbon Bouquet",
+        price: 899,
+        image: "images/bouquet3.jpg"
+    },
+
+    {
+        name: "Polaroid Bouquet",
+        price: 849,
+        image: "images/bouquet4.jpg"
+    },
+
+    {
+        name: "Flower & Chocolate Bouquet",
+        price: 999,
+        image: "images/bouquet5.jpg"
+    },
+
+    {
+        name: "Money Bouquet",
+        price: 1099,
+        image: "images/bouquet6.jpg"
+    },
+
+    {
+        name: "Mini Cute Bouquet",
+        price: 599,
+        image: "images/bouquet7.jpg"
+    },
+
+    {
+        name: "Birthday Bouquet",
+        price: 899,
+        image: "images/bouquet8.jpg"
+    },
+
+    {
+        name: "Couple Bouquet",
+        price: 999,
+        image: "images/bouquet9.jpg"
+    },
+
+    {
+        name: "Custom Gift Bouquet",
+        price: 1299,
+        image: "images/bouquet10.jpg"
+    }
+
+];
+
+
+let selectedBouquet = 0;
+
+
+// OPEN PRODUCT DETAILS
+
+function openBouquet(index) {
+
+    selectedBouquet = index;
+
+    const product = bouquetProducts[index];
+
+    document.getElementById("bouquetMainImage").src =
+        product.image;
+
+    document.getElementById("bouquetName").innerText =
+        product.name;
+
+    document.getElementById("bouquetPrice").innerText =
+        "₹" + product.price;
+
+    document.getElementById("bouquetQuantity").value = 1;
+
+    document.getElementById("bouquetCustomization").value = "";
+
+    document.getElementById("bouquetOrderMessage").innerHTML = "";
+
+    const buyButton = document.getElementById("bouquetBuyButton");
+
+    buyButton.disabled = false;
+    buyButton.innerText = "Order Now ♡";
+
+    document.getElementById("bouquetDetail").style.display =
+        "flex";
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+// CLOSE PRODUCT DETAILS
+
+function backToBouquets() {
+
+    document.getElementById("bouquetDetail").style.display =
+        "none";
+
+    document.body.style.overflow = "auto";
+
+}
+
+
+// CHANGE QUANTITY
+
+function changeBouquetQuantity(change) {
+
+    const quantityInput =
+        document.getElementById("bouquetQuantity");
+
+    let quantity = parseInt(quantityInput.value);
+
+    quantity = quantity + change;
+
+    if (quantity < 1) {
+        quantity = 1;
+    }
+
+    quantityInput.value = quantity;
+
+}
+
+
+// ADD TO CART
+
+function addBouquetCart() {
+
+    const product = bouquetProducts[selectedBouquet];
+
+    const quantity = parseInt(
+        document.getElementById("bouquetQuantity").value
+    );
+
+    const customization =
+        document.getElementById("bouquetCustomization").value;
+
+    const total = product.price * quantity;
+
+    alert(
+        "Added to Cart Successfully! ♡\n\n" +
+        "Product: " + product.name +
+        "\nPrice: ₹" + product.price +
+        "\nQuantity: " + quantity +
+        "\nTotal: ₹" + total +
+        "\nCustomization: " +
+        (customization || "No customization")
+    );
+
+}
+
+
+// ORDER NOW - EMAILJS
+
+async function buyBouquet() {
+
+    const product = bouquetProducts[selectedBouquet];
+
+    const quantity = parseInt(
+        document.getElementById("bouquetQuantity").value
+    );
+
+    const customization =
+        document.getElementById("bouquetCustomization").value;
+
+    const total = product.price * quantity;
+
+    const orderId =
+        "BQ" + Math.floor(100000 + Math.random() * 900000);
+
+    const buyButton =
+        document.getElementById("bouquetBuyButton");
+
+    const message =
+        document.getElementById("bouquetOrderMessage");
+
+
+    // DISABLE BUTTON WHILE SENDING
+
+    buyButton.disabled = true;
+    buyButton.innerText = "Sending Order...";
+
+    message.innerHTML =
+        "Please wait... Sending your order details ♡";
+
+
+    // EMAIL TEMPLATE PARAMETERS
+
+    const templateParams = {
+
+        product_name: product.name,
+
+        product_price: product.price,
+
+        product_quantity: quantity,
+
+        total_price: total,
+
+        customization: customization || "None"
+
+    };
+
+
+    // SEND EMAIL
+
+    try {
+
+        await emailjs.send(
+            "service_nko8lyd",
+            "template_uua1ug9",
+            templateParams
+        );
+
+
+        // SUCCESS MESSAGE
+
+        message.innerHTML =
+            "✓ Order details sent successfully! ♡" +
+            "<br>Product: " + product.name +
+            "<br>Quantity: " + quantity +
+            "<br>Total: ₹" + total +
+            "<br>Customization: " + (customization || "None") +
+            "<br>Order ID: <strong>" + orderId + "</strong>";
+
+        buyButton.innerText = "Order Sent ✓";
+
+
+    } catch (error) {
+
+        // ERROR MESSAGE
+
+        console.error("EmailJS Error:", error);
+
+        message.innerHTML =
+            "✗ Unable to send order. Please try again!";
+
+        buyButton.disabled = false;
+
+        buyButton.innerText = "Order Now ♡";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

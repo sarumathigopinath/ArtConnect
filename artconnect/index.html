@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Art Connect | Create • Craft • Connect</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+/* NAVBAR ALIGNMENT FIX */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    flex: 1;
+    margin-left: 40px;
+}
+
+.navbar a {
+    color: #5b4653;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.navbar a.active {
+    color: #5b4653 !important;
+    background: #f5a6c8;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+
+.icons {
+    white-space: nowrap;
+    margin-left: 25px;
+}
+</style>
+
+</head>
+
+<body>
+
+    <!-- CUTE BACKGROUND DECORATIONS -->
+
+    <div class="decoration heart heart-one">♡</div>
+
+    <div class="decoration heart heart-two">♡</div>
+
+    <div class="decoration star star-one">✦</div>
+
+    <div class="decoration star star-two">✦</div>
+
+    <div class="hanging hanging-one">
+
+        <span></span>
+
+        <div>♡</div>
+
+    </div>
+
+    <div class="hanging hanging-two">
+
+        <span></span>
+
+        <div>☆</div>
+
+    </div>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            Art<span>Connect</span>
+
+        </div>
+
+        <nav class="navbar">
+
+            <a href="#" class="active">Home</a>
+
+            <a href="about.html">About</a>
+
+            <a href="product.html">Products</a>
+
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+        <div class="icons">
+
+            ♡ &nbsp; 🛒
+
+        </div>
+
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="tag">
+
+                ✿ HANDMADE • CREATIVE • UNIQUE ✿
+
+            </div>
+
+            <h1>
+
+                Little things,
+
+                <span>big creativity.</span>
+
+            </h1>
+
+            <p class="description">
+
+                Discover cute handmade creations, colourful crafts
+
+                and personalized gifts made with imagination,
+
+                love and a little bit of magic.
+
+            </p>
+
+            <div class="buttons">
+
+                <a href="review.html" class="btn main-btn">
+
+                    Reviews
+
+                </a>
+
+                <button type="button" class="btn outline-btn" id="createBtn">
+
+                    Create Your Own
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- HERO IMAGE -->
+
+        <div class="hero-image">
+
+            <div class="image-frame">
+
+                <img src="hero.jpg"
+
+                     alt="Cute handmade crafts">
+
+                <div class="image-note">
+
+                    ♡ Made with love ♡
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CATEGORIES -->
+
+    <section class="categories">
+
+        <div class="section-title">
+
+            <div class="mini-label">
+
+                ✦ PICK YOUR FAVOURITE ✦
+
+            </div>
+
+            <h2>
+
+                Something cute for everyone
+
+            </h2>
+
+            <p>
+
+                Explore our little world of colours, crafts and creativity.
+
+            </p>
+
+        </div>
+
+        <div class="category-container">
+
+            <!-- PAINTING -->
+
+            <div class="category-card">
+
+                <div class="card-image">
+
+                    <img src="paintings.jpg"
+
+                         alt="Arts and Paintings">
+
+                </div>
+
+                <div class="card-content">
+
+                    <span>🎨</span>
+
+                    <h3>Arts & Paintings</h3>
+
+                    <a href="artspaintings.html">Explore →</a>
+
+                </div>
+
+            </div>
+
+            <!-- CROCHET -->
+
+            <div class="category-card">
+
+                <div class="card-image">
+
+                    <img src="crochet.jpg"
+
+                         alt="Crochet">
+
+                </div>
+
+                <div class="card-content">
+
+                    <span>🧶</span>
+
+                    <h3>Crochet</h3>
+
+                    <a href="crochet.html">Explore →</a>
+
+                </div>
+
+            </div>
+
+            <!-- RESIN -->
+
+            <div class="category-card">
+
+                <div class="card-image">
+
+                    <img src="resin.jpg"
+
+                         alt="Resin Art">
+
+                </div>
+
+                <div class="card-content">
+
+                    <span>✨</span>
+
+                    <h3>Resin Art</h3>
+
+                    <a href="resin.html">Explore →</a>
+
+                </div>
+
+            </div>
+
+            <!-- GIFTS -->
+
+            <div class="category-card">
+
+                <div class="card-image">
+
+                    <img src="gift.jpeg"
+
+                         alt="Personalized Gifts">
+
+                </div>
+
+                <div class="card-content">
+
+                    <span>🎁</span>
+
+                    <h3>Personalized Gifts</h3>
+
+                    <a href="gifts.html">Explore →</a>
+
+                </div>
+
+            </div>
+
+            <!-- BOUQUETS -->
+
+            <div class="category-card">
+
+                <div class="card-image">
+
+                    <img src="bouquets.jpg"
+
+                         alt="Bouquets">
+
+                </div>
+
+                <div class="card-content">
+
+                    <span>💐</span>
+
+                    <h3>Bouquets</h3>
+
+                    <a href="bouquets.html">Explore →</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CUTE MESSAGE -->
+
+    <section class="cute-message">
+
+        <div class="message-card">
+
+            <div class="message-icon">
+
+                ♡
+
+            </div>
+
+            <p class="mini-label">
+
+                A LITTLE REMINDER
+
+            </p>
+
+            <h2>
+
+                Creativity has no age.
+
+            </h2>
+
+            <p>
+
+                Whether you love painting, crafting,
+
+                crocheting or simply finding cute things,
+
+                there is always something waiting for you here.
+
+            </p>
+
+            <span class="stars">
+
+                ✦　♡　✦
+
+            </span>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT STRIP -->
+
+    <section class="about">
+
+        <div>
+
+            <p class="mini-label">
+
+                MADE WITH LOVE
+
+            </p>
+
+            <h2>
+
+                Every creation tells
+
+                a little story.
+
+            </h2>
+
+        </div>
+
+        <p>
+
+            Art Connect brings handmade art, crafts and
+
+            personalized gifts together in one colourful
+
+            little corner of creativity.
+
+        </p>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-logo">
+
+            Art<span>Connect</span>
+
+        </div>
+
+        <p>
+
+            Create • Craft • Connect ♡
+
+        </p>
+
+        <div class="footer-links">
+
+            <a href="#">About</a>
+
+            <a href="#">Products</a>
+
+
+            <a href="#">Contact</a>
+
+        </div>
+
+        <small>
+
+            © 2026 Art Connect. Made with ♡
+
+        </small>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // CREATE YOUR OWN BUTTON
+
+        const createBtn = document.getElementById("createBtn");
+
+        createBtn.addEventListener("click", function () {
+
+            alert("Welcome to Art Connect! ♡\n\nYou can explore our handmade products and choose your favourite creations.\n\nThank you for your interest!");
+
+        });
+
+
+        // CATEGORY CARD SCROLL ANIMATION
+
+        const cards = document.querySelectorAll(".category-card");
+
+        cards.forEach(function (card) {
+
+            card.style.opacity = "0";
+
+            card.style.transform = "translateY(30px)";
+
+            card.style.transition = "all 0.8s ease";
+
+        });
+
+
+        window.addEventListener("scroll", function () {
+
+            cards.forEach(function (card) {
+
+                const position = card.getBoundingClientRect().top;
+
+                if (position < window.innerHeight - 100) {
+
+                    card.style.opacity = "1";
+
+                    card.style.transform = "translateY(0)";
+
+                }
+
+            });
+
+        });
+
+
+        // BACK TO TOP BUTTON
+
+        const topBtn = document.createElement("button");
+
+        topBtn.innerHTML = "↑";
+
+        topBtn.style.position = "fixed";
+
+        topBtn.style.bottom = "25px";
+
+        topBtn.style.right = "25px";
+
+        topBtn.style.width = "45px";
+
+        topBtn.style.height = "45px";
+
+        topBtn.style.borderRadius = "50%";
+
+        topBtn.style.border = "none";
+
+        topBtn.style.background = "#f5a6c8";
+
+        topBtn.style.color = "white";
+
+        topBtn.style.fontSize = "25px";
+
+        topBtn.style.cursor = "pointer";
+
+        topBtn.style.display = "none";
+
+        topBtn.style.zIndex = "1000";
+
+        document.body.appendChild(topBtn);
+
+
+        // SHOW BUTTON WHEN SCROLLING
+
+        window.addEventListener("scroll", function () {
+
+            if (window.scrollY > 300) {
+
+                topBtn.style.display = "block";
+
+            } else {
+
+                topBtn.style.display = "none";
+
+            }
+
+        });
+
+
+        // SCROLL TO TOP
+
+        topBtn.addEventListener("click", function () {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

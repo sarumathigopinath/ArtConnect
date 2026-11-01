@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resin Collection | Art Connect</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- EMAILJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
+
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "SFYaSWhW68DplKlyb"
+            });
+        })();
+    </script>
+
+
+    <style>
+
+    /* PRODUCT DETAILS POPUP */
+
+    .resin-detail {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(40, 25, 35, 0.55);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+
+    .resin-detail-container {
+        position: relative;
+        width: 100%;
+        max-width: 1050px;
+        min-height: 520px;
+        background: #fffafc;
+        border-radius: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        overflow: hidden;
+        margin: auto;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    }
+
+
+    /* CLOSE BUTTON */
+
+    .resin-close {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        border: none;
+        background: transparent;
+        color: #a65d79;
+        font-size: 30px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+
+    /* PRODUCT IMAGE */
+
+    .resin-detail-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        background: #f9edf2;
+    }
+
+
+    .resin-detail-image img {
+        width: 100%;
+        height: 450px;
+        object-fit: contain;
+        border-radius: 20px;
+    }
+
+
+    /* PRODUCT CONTENT */
+
+    .resin-detail-content {
+        padding: 55px 45px 35px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .resin-detail-content h1 {
+        font-family: Georgia, serif;
+        font-size: 42px;
+        color: #795267;
+        margin-bottom: 15px;
+    }
+
+
+    .resin-price {
+        font-size: 28px;
+        font-weight: bold;
+        color: #b56c8c;
+        margin-bottom: 25px;
+    }
+
+
+    /* QUANTITY */
+
+    .resin-quantity-title {
+        font-size: 16px;
+        color: #76576a;
+        margin-bottom: 12px;
+    }
+
+
+    .resin-quantity-box {
+        display: flex;
+        align-items: center;
+        width: 155px;
+        height: 48px;
+        background: #f7eaf0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+
+    .resin-quantity-box button {
+        width: 45px;
+        height: 48px;
+        border: none;
+        background: #f3dce6;
+        color: #85536b;
+        font-size: 23px;
+        cursor: pointer;
+    }
+
+
+    .resin-quantity-box button:hover {
+        background: #e9c5d5;
+    }
+
+
+    .resin-quantity-box input {
+        width: 65px;
+        height: 48px;
+        border: none;
+        outline: none;
+        background: transparent;
+        text-align: center;
+        font-size: 18px;
+        color: #69485b;
+    }
+
+
+    /* CUSTOMIZATION */
+
+    .resin-custom-title {
+        font-size: 16px;
+        color: #76576a;
+        margin-bottom: 12px;
+    }
+
+
+    .resin-custom-input {
+        width: 100%;
+        min-height: 150px;
+        padding: 18px;
+        border: 1px solid #e8dce2;
+        border-radius: 15px;
+        background: #fff;
+        font-family: inherit;
+        font-size: 15px;
+        outline: none;
+        resize: vertical;
+        box-sizing: border-box;
+        margin-bottom: 25px;
+    }
+
+
+    .resin-custom-input:focus {
+        border-color: #c47e9d;
+    }
+
+
+    /* BUTTONS */
+
+    .resin-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 5px;
+    }
+
+
+    .resin-cart,
+    .resin-buy {
+        width: 100%;
+        padding: 17px;
+        border: none;
+        border-radius: 35px;
+        background: #bd7695;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+
+    .resin-cart:hover,
+    .resin-buy:hover {
+        background: #985873;
+        transform: translateY(-2px);
+    }
+
+
+    /* ORDER MESSAGE */
+
+    .resin-order-message {
+        color: #8b5570;
+        font-size: 15px;
+        line-height: 1.8;
+        margin-top: 18px;
+    }
+
+
+    /* RESPONSIVE DESIGN */
+
+    @media(max-width: 750px) {
+
+        .resin-detail {
+            padding: 12px;
+            align-items: flex-start;
+        }
+
+        .resin-detail-container {
+            grid-template-columns: 1fr;
+            max-width: 480px;
+            margin: auto;
+        }
+
+        .resin-detail-image {
+            padding: 20px;
+            min-height: 250px;
+        }
+
+        .resin-detail-image img {
+            height: 250px;
+        }
+
+        .resin-detail-content {
+            padding: 25px;
+        }
+
+        .resin-detail-content h1 {
+            font-size: 30px;
+        }
+
+        .resin-price {
+            font-size: 24px;
+        }
+
+        .resin-close {
+            top: 10px;
+            right: 15px;
+        }
+
+    }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- DECORATIVE ELEMENTS -->
+
+    <div class="resin-decor resin-heart1">♡</div>
+
+    <div class="resin-decor resin-heart2">♡</div>
+
+    <div class="resin-decor resin-teddy1">🧸</div>
+
+    <div class="resin-decor resin-teddy2">🧸</div>
+
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Art Connect
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="about.html">About</a>
+
+            <a href="products.html">Products</a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- RESIN PRODUCTS -->
+
+    <section class="resin-section" id="resinProducts">
+
+        <h1>Resin Collection</h1>
+
+        <p class="resin-subtitle">
+            Beautiful handmade resin creations made with love ♡
+        </p>
+
+
+        <div class="resin-grid">
+
+
+            <div class="resin-card" onclick="openResin(0)">
+
+                <img src="a.jpg" alt="Resin Keychain">
+
+                <h3>A Letter Keychain</h3>
+
+                <p>₹299</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(1)">
+
+                <img src="b.jpg" alt="Resin Bookmark">
+
+                <h3>B Letter Keychain</h3>
+
+                <p>₹349</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(2)">
+
+                <img src="d.jpg" alt="Resin Pendant">
+
+                <h3>D Letter Keychain</h3>
+
+                <p>₹449</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(3)">
+
+                <img src="m.jpg" alt="Resin Earrings">
+
+                <h3>M Letter Keychain</h3>
+
+                <p>₹399</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(4)">
+
+                <img src="p.jpg" alt="Resin Coaster">
+
+                <h3>P Letter Keychain</h3>
+
+                <p>₹599</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(5)">
+
+                <img src="r.jpg" alt="Resin Tray">
+
+                <h3>R Letter Keychain</h3>
+
+                <p>₹899</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(6)">
+
+                <img src="g.jpg" alt="Resin Ring">
+
+                <h3>G Letter Keychain</h3>
+
+                <p>₹349</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(7)">
+
+                <img src="s.jpg" alt="Resin Hair Clip">
+
+                <h3>S Letter Keychain</h3>
+
+                <p>₹299</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(8)">
+
+                <img src="i.jpg" alt="Resin Photo Frame">
+
+                <h3>I Letter Keychain</h3>
+
+                <p>₹999</p>
+
+            </div>
+
+
+
+            <div class="resin-card" onclick="openResin(9)">
+
+                <img src="h.jpg" alt="Resin Name Plate">
+
+                <h3>H Letter Keychain</h3>
+
+                <p>₹1,199</p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- PRODUCT DETAILS POPUP -->
+
+    <section class="resin-detail" id="resinDetail">
+
+
+        <div class="resin-detail-container">
+
+
+            <!-- CLOSE BUTTON -->
+
+            <button class="resin-close"
+                onclick="backToResin()">
+
+                ×
+
+            </button>
+
+
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="resin-detail-image">
+
+                <img
+                    id="resinDetailImage"
+                    src=""
+                    alt="Resin Product"
+                >
+
+            </div>
+
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="resin-detail-content">
+
+
+                <p style="color:#a8788e; margin-bottom:20px;">
+
+                    Handmade with love ♡
+
+                </p>
+
+
+                <h1 id="resinDetailName"></h1>
+
+
+                <div class="resin-price"
+                    id="resinDetailPrice">
+
+                </div>
+
+
+
+                <!-- QUANTITY -->
+
+                <p class="resin-quantity-title">
+
+                    Quantity
+
+                </p>
+
+
+                <div class="resin-quantity-box">
+
+
+                    <button onclick="changeResinQuantity(-1)">
+
+                        −
+
+                    </button>
+
+
+                    <input
+                        type="number"
+                        id="resinQuantity"
+                        value="1"
+                        min="1"
+                        readonly
+                    >
+
+
+                    <button onclick="changeResinQuantity(1)">
+
+                        +
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- CUSTOMIZATION -->
+
+                <p class="resin-custom-title">
+
+                    Your Customization
+
+                </p>
+
+
+                <textarea
+                    id="resinCustomization"
+                    class="resin-custom-input"
+                    placeholder="Example: Add a name, change colour, add dried flowers, custom design..."
+                ></textarea>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="resin-buttons">
+
+
+                    <button
+                        class="resin-cart"
+                        onclick="addResinCart()">
+
+                        Add to Cart ♡
+
+                    </button>
+
+
+
+                    <button
+                        class="resin-buy"
+                        id="resinBuyButton"
+                        onclick="buyResin()">
+
+                        Order Now ♡
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- ORDER MESSAGE -->
+
+                <p
+                    id="resinOrderMessage"
+                    class="resin-order-message">
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Art Connect | Made with ♡
+        </p>
+
+    </footer>
+
+
+
+<script>
+
+
+// ALL RESIN PRODUCTS
+
+const resinProducts = [
+
+    {
+        name: "A Letter Keychain",
+        price: 299,
+        image: "a.jpg"
+    },
+
+    {
+        name: "B Letter Keychain",
+        price: 349,
+        image: "b.jpg"
+    },
+
+    {
+        name: "D Letter Keychain",
+        price: 449,
+        image: "d.jpg"
+    },
+
+    {
+        name: "M Letter Keychain",
+        price: 399,
+        image: "m.jpg"
+    },
+
+    {
+        name: "P Letter Keychain",
+        price: 599,
+        image: "p.jpg"
+    },
+
+    {
+        name: "R Letter Keychain",
+        price: 899,
+        image: "r.jpg"
+    },
+
+    {
+        name: "G Letter Keychain",
+        price: 349,
+        image: "g.jpg"
+    },
+
+    {
+        name: "S Letter Keychain",
+        price: 299,
+        image: "s.jpg"
+    },
+
+    {
+        name: "I Letter Keychain",
+        price: 999,
+        image: "i.jpg"
+    },
+
+    {
+        name: "H Letter Keychain",
+        price: 1199,
+        image: "h.jpg"
+    }
+
+];
+
+
+
+// SELECTED PRODUCT
+
+let selectedResin = null;
+
+
+
+// OPEN PRODUCT DETAILS
+
+function openResin(index) {
+
+
+    selectedResin = resinProducts[index];
+
+
+    document.getElementById("resinProducts")
+        .style.display = "none";
+
+
+    document.getElementById("resinDetail")
+        .style.display = "flex";
+
+
+    document.getElementById("resinDetailImage").src =
+        selectedResin.image;
+
+
+    document.getElementById("resinDetailName").innerText =
+        selectedResin.name;
+
+
+    document.getElementById("resinDetailPrice").innerText =
+        "₹" + selectedResin.price;
+
+
+    document.getElementById("resinQuantity").value = 1;
+
+
+    document.getElementById("resinCustomization").value = "";
+
+
+    document.getElementById("resinOrderMessage").innerHTML = "";
+
+
+    document.getElementById("resinBuyButton").disabled = false;
+
+    document.getElementById("resinBuyButton").innerText =
+        "Order Now ♡";
+
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+
+// CHANGE QUANTITY
+
+function changeResinQuantity(value) {
+
+
+    const quantityInput =
+        document.getElementById("resinQuantity");
+
+
+    let quantity = parseInt(quantityInput.value);
+
+
+    quantity = quantity + value;
+
+
+    if (quantity < 1) {
+
+        quantity = 1;
+
+    }
+
+
+    quantityInput.value = quantity;
+
+}
+
+
+
+// BACK TO RESIN PRODUCTS
+
+function backToResin() {
+
+
+    document.getElementById("resinDetail")
+        .style.display = "none";
+
+
+    document.getElementById("resinProducts")
+        .style.display = "block";
+
+
+    document.body.style.overflow = "auto";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+// ADD TO CART
+
+function addResinCart() {
+
+
+    const name = selectedResin.name;
+
+
+    const quantity =
+        parseInt(document.getElementById("resinQuantity").value);
+
+
+    const customization =
+        document.getElementById("resinCustomization").value;
+
+
+    const cartItem = {
+
+        name: name,
+
+        price: selectedResin.price,
+
+        image: selectedResin.image,
+
+        quantity: quantity,
+
+        customization: customization
+
+    };
+
+
+    let cart =
+        JSON.parse(localStorage.getItem("resinCart")) || [];
+
+
+    cart.push(cartItem);
+
+
+    localStorage.setItem(
+        "resinCart",
+        JSON.stringify(cart)
+    );
+
+
+    document.getElementById("resinOrderMessage").innerHTML =
+
+        "✓ " + name + " × " + quantity +
+
+        "<br>Successfully added to cart! ♡";
+
+}
+
+
+
+// ORDER NOW - EMAILJS INTEGRATION
+
+async function buyResin() {
+
+
+    const name = selectedResin.name;
+
+
+    const quantity =
+        parseInt(document.getElementById("resinQuantity").value);
+
+
+    const customization =
+        document.getElementById("resinCustomization").value;
+
+
+    const total =
+        selectedResin.price * quantity;
+
+
+    const orderId =
+        "RS" + Math.floor(100000 + Math.random() * 900000);
+
+
+    const buyButton =
+        document.getElementById("resinBuyButton");
+
+
+    const message =
+        document.getElementById("resinOrderMessage");
+
+
+    // DISABLE BUTTON WHILE SENDING
+
+    buyButton.disabled = true;
+
+    buyButton.innerText = "Sending Order...";
+
+
+    message.innerHTML =
+        "Please wait... Sending your order details ♡";
+
+
+    // EMAIL TEMPLATE PARAMETERS
+
+    const templateParams = {
+
+        product_name: name,
+
+        product_price: selectedResin.price,
+
+        product_quantity: quantity,
+
+        total_price: total,
+
+        customization: customization || "None"
+
+    };
+
+
+    try {
+
+
+        // SEND EMAIL
+
+        await emailjs.send(
+
+            "service_nko8lyd",
+
+            "template_uua1ug9",
+
+            templateParams
+
+        );
+
+
+        // SUCCESS MESSAGE
+
+        message.innerHTML =
+
+            "✓ Order details sent successfully! ♡" +
+
+            "<br>Product: " + name +
+
+            "<br>Quantity: " + quantity +
+
+            "<br>Total: ₹" + total +
+
+            "<br>Customization: " + (customization || "None") +
+
+            "<br>Order ID: <strong>" + orderId + "</strong>";
+
+
+        buyButton.innerText = "Order Sent ✓";
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error("EmailJS Error:", error);
+
+
+        message.innerHTML =
+            "✗ Unable to send order. Please try again!";
+
+
+        buyButton.disabled = false;
+
+        buyButton.innerText = "Order Now ♡";
+
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

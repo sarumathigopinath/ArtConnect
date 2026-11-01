@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Arts & Paintings | Art Connect</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- EMAILJS LIBRARY -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
+
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "SFYaSWhW68DplKlyb"
+            });
+        })();
+    </script>
+
+
+    <style>
+
+    /* PRODUCT DETAILS POPUP */
+
+    .product-detail {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(40, 25, 35, 0.55);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+
+    .detail-container {
+        position: relative;
+        width: 100%;
+        max-width: 1050px;
+        min-height: 520px;
+        background: #fffafc;
+        border-radius: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        overflow: hidden;
+        margin: auto;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    }
+
+
+    /* CLOSE BUTTON */
+
+    .product-close {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        border: none;
+        background: transparent;
+        color: #a65d79;
+        font-size: 30px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+
+    /* PRODUCT IMAGE */
+
+    .detail-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        background: #f9edf2;
+    }
+
+
+    .detail-image img {
+        width: 100%;
+        height: 450px;
+        object-fit: contain;
+        border-radius: 20px;
+    }
+
+
+    /* PRODUCT CONTENT */
+
+    .detail-content {
+        padding: 55px 45px 35px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .detail-content h1 {
+        font-family: Georgia, serif;
+        font-size: 42px;
+        color: #795267;
+        margin-bottom: 15px;
+    }
+
+
+    .price {
+        font-size: 28px;
+        font-weight: bold;
+        color: #b56c8c;
+        margin-bottom: 25px;
+    }
+
+
+    /* QUANTITY */
+
+    .quantity-title {
+        font-size: 16px;
+        color: #76576a;
+        margin-bottom: 12px;
+    }
+
+
+    .quantity-box {
+        display: flex;
+        align-items: center;
+        width: 155px;
+        height: 48px;
+        background: #f7eaf0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+
+    .quantity-box button {
+        width: 45px;
+        height: 48px;
+        border: none;
+        background: #f3dce6;
+        color: #85536b;
+        font-size: 23px;
+        cursor: pointer;
+    }
+
+
+    .quantity-box button:hover {
+        background: #e9c5d5;
+    }
+
+
+    .quantity-box input {
+        width: 65px;
+        height: 48px;
+        border: none;
+        outline: none;
+        background: transparent;
+        text-align: center;
+        font-size: 18px;
+        color: #69485b;
+    }
+
+
+    /* CUSTOMIZATION */
+
+    .custom-title {
+        font-size: 16px;
+        color: #76576a;
+        margin-bottom: 12px;
+    }
+
+
+    .custom-input {
+        width: 100%;
+        min-height: 150px;
+        padding: 18px;
+        border: 1px solid #e8dce2;
+        border-radius: 15px;
+        background: #fff;
+        font-family: inherit;
+        font-size: 15px;
+        outline: none;
+        resize: vertical;
+        box-sizing: border-box;
+        margin-bottom: 25px;
+    }
+
+
+    .custom-input:focus {
+        border-color: #c47e9d;
+    }
+
+
+    /* BUTTONS */
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 5px;
+    }
+
+
+    .cart-btn,
+    .buy-btn {
+        width: 100%;
+        padding: 17px;
+        border: none;
+        border-radius: 35px;
+        background: #bd7695;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+
+    .cart-btn:hover,
+    .buy-btn:hover {
+        background: #985873;
+        transform: translateY(-2px);
+    }
+
+
+    .buy-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+
+    /* MESSAGE */
+
+    .order-message {
+        color: #8b5570;
+        font-size: 15px;
+        line-height: 1.8;
+        margin-top: 18px;
+    }
+
+
+    /* RESPONSIVE DESIGN */
+
+    @media(max-width: 750px) {
+
+        .product-detail {
+            padding: 12px;
+            align-items: flex-start;
+        }
+
+        .detail-container {
+            grid-template-columns: 1fr;
+            max-width: 480px;
+            margin: auto;
+        }
+
+        .detail-image {
+            padding: 20px;
+            min-height: 250px;
+        }
+
+        .detail-image img {
+            height: 250px;
+        }
+
+        .detail-content {
+            padding: 25px;
+        }
+
+        .detail-content h1 {
+            font-size: 30px;
+        }
+
+        .price {
+            font-size: 24px;
+        }
+
+        .product-close {
+            top: 10px;
+            right: 15px;
+        }
+
+    }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- DECORATIVE BACKGROUND -->
+
+    <div class="decor heart1">♡</div>
+    <div class="decor heart2">♡</div>
+    <div class="decor heart3">♡</div>
+
+    <div class="decor teddy1">🧸</div>
+    <div class="decor teddy2">🧸</div>
+
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Art Connect
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ARTS & PAINTINGS SECTION -->
+
+    <section class="arts-section" id="productsSection">
+
+        <h1>Arts & Paintings</h1>
+
+        <p class="section-subtitle">
+            Handcrafted artworks made specially for you ♡
+        </p>
+
+
+        <div class="art-grid">
+
+
+            <div class="art-card" onclick="openProduct(0)">
+                <img src="images/art1.jpg" alt="Floral Dreams">
+                <h3>Floral Dreams</h3>
+                <p>₹799</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(1)">
+                <img src="images/art2.jpg" alt="Sunset Memories">
+                <h3>Sunset Memories</h3>
+                <p>₹899</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(2)">
+                <img src="images/art3.jpg" alt="Couple Portrait">
+                <h3>Couple Portrait</h3>
+                <p>₹999</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(3)">
+                <img src="images/art4.jpg" alt="Nature Escape">
+                <h3>Nature Escape</h3>
+                <p>₹749</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(4)">
+                <img src="images/art5.jpg" alt="Abstract Dreams">
+                <h3>Abstract Dreams</h3>
+                <p>₹849</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(5)">
+                <img src="images/art6.jpg" alt="Moonlight Art">
+                <h3>Moonlight Art</h3>
+                <p>₹699</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(6)">
+                <img src="images/art7.jpg" alt="Minimal Line Art">
+                <h3>Minimal Line Art</h3>
+                <p>₹599</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(7)">
+                <img src="images/art8.jpg" alt="Watercolor Dreams">
+                <h3>Watercolor Dreams</h3>
+                <p>₹799</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(8)">
+                <img src="images/art9.jpg" alt="Custom Portrait">
+                <h3>Custom Portrait</h3>
+                <p>₹1,199</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(9)">
+                <img src="images/art10.jpg" alt="Pressed Flower Art">
+                <h3>Pressed Flower Art</h3>
+                <p>₹899</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(10)">
+                <img src="images/art11.jpg" alt="Mandala Art">
+                <h3>Mandala Art</h3>
+                <p>₹749</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(11)">
+                <img src="images/art12.jpg" alt="Aesthetic Wall Art">
+                <h3>Aesthetic Wall Art</h3>
+                <p>₹699</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(12)">
+                <img src="images/art13.jpg" alt="Scenery Painting">
+                <h3>Scenery Painting</h3>
+                <p>₹899</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(13)">
+                <img src="images/art14.jpg" alt="Custom Illustration">
+                <h3>Custom Illustration</h3>
+                <p>₹999</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(14)">
+                <img src="images/art15.jpg" alt="Couple Silhouette">
+                <h3>Couple Silhouette</h3>
+                <p>₹799</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(15)">
+                <img src="images/art16.jpg" alt="Pet Portrait">
+                <h3>Pet Portrait</h3>
+                <p>₹1,099</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(16)">
+                <img src="images/art17.jpg" alt="Vintage Art">
+                <h3>Vintage Art</h3>
+                <p>₹849</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(17)">
+                <img src="images/art18.jpg" alt="Quote Canvas">
+                <h3>Quote Canvas</h3>
+                <p>₹649</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(18)">
+                <img src="images/art19.jpg" alt="Memory Painting">
+                <h3>Memory Painting</h3>
+                <p>₹1,299</p>
+            </div>
+
+
+            <div class="art-card" onclick="openProduct(19)">
+                <img src="images/art20.jpg" alt="Special Custom Art">
+                <h3>Special Custom Art</h3>
+                <p>₹1,499</p>
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- PRODUCT DETAILS POPUP -->
+
+    <section class="product-detail" id="productDetail">
+
+
+        <div class="detail-container">
+
+
+            <!-- CLOSE BUTTON -->
+
+            <button class="product-close"
+                onclick="backToProducts()">
+
+                ×
+
+            </button>
+
+
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="detail-image">
+
+                <img id="detailImage"
+                    src=""
+                    alt="Product">
+
+            </div>
+
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="detail-content">
+
+
+                <p style="color:#a8788e; margin-bottom:20px;">
+                    Handmade with love ♡
+                </p>
+
+
+                <h1 id="detailName"></h1>
+
+
+                <div class="price" id="detailPrice"></div>
+
+
+
+                <!-- QUANTITY -->
+
+                <p class="quantity-title">
+                    Quantity
+                </p>
+
+
+                <div class="quantity-box">
+
+
+                    <button onclick="changeQuantity(-1)">
+                        −
+                    </button>
+
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        value="1"
+                        min="1"
+                        readonly
+                    >
+
+
+                    <button onclick="changeQuantity(1)">
+                        +
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- CUSTOMIZATION -->
+
+                <p class="custom-title">
+                    Your Customization
+                </p>
+
+
+                <textarea
+                    id="customization"
+                    class="custom-input"
+                    placeholder="Example: Add a name, change colour, add a quote, custom design..."
+                ></textarea>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-group">
+
+
+                    <button
+                        class="cart-btn"
+                        onclick="addToCart()">
+
+                        Add to Cart ♡
+
+                    </button>
+
+
+
+                    <button
+                        class="buy-btn"
+                        id="buyButton"
+                        onclick="buyNow()">
+
+                        Order Now ♡
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- ORDER MESSAGE -->
+
+                <p id="orderMessage"
+                    class="order-message">
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Art Connect | Made with ♡
+        </p>
+
+    </footer>
+
+
+
+<script>
+
+
+// ALL PRODUCTS
+
+const products = [
+
+    {
+        name: "Floral Dreams",
+        price: 799,
+        image: "images/art1.jpg"
+    },
+
+    {
+        name: "Sunset Memories",
+        price: 899,
+        image: "images/art2.jpg"
+    },
+
+    {
+        name: "Couple Portrait",
+        price: 999,
+        image: "images/art3.jpg"
+    },
+
+    {
+        name: "Nature Escape",
+        price: 749,
+        image: "images/art4.jpg"
+    },
+
+    {
+        name: "Abstract Dreams",
+        price: 849,
+        image: "images/art5.jpg"
+    },
+
+    {
+        name: "Moonlight Art",
+        price: 699,
+        image: "images/art6.jpg"
+    },
+
+    {
+        name: "Minimal Line Art",
+        price: 599,
+        image: "images/art7.jpg"
+    },
+
+    {
+        name: "Watercolor Dreams",
+        price: 799,
+        image: "images/art8.jpg"
+    },
+
+    {
+        name: "Custom Portrait",
+        price: 1199,
+        image: "images/art9.jpg"
+    },
+
+    {
+        name: "Pressed Flower Art",
+        price: 899,
+        image: "images/art10.jpg"
+    },
+
+    {
+        name: "Mandala Art",
+        price: 749,
+        image: "images/art11.jpg"
+    },
+
+    {
+        name: "Aesthetic Wall Art",
+        price: 699,
+        image: "images/art12.jpg"
+    },
+
+    {
+        name: "Scenery Painting",
+        price: 899,
+        image: "images/art13.jpg"
+    },
+
+    {
+        name: "Custom Illustration",
+        price: 999,
+        image: "images/art14.jpg"
+    },
+
+    {
+        name: "Couple Silhouette",
+        price: 799,
+        image: "images/art15.jpg"
+    },
+
+    {
+        name: "Pet Portrait",
+        price: 1099,
+        image: "images/art16.jpg"
+    },
+
+    {
+        name: "Vintage Art",
+        price: 849,
+        image: "images/art17.jpg"
+    },
+
+    {
+        name: "Quote Canvas",
+        price: 649,
+        image: "images/art18.jpg"
+    },
+
+    {
+        name: "Memory Painting",
+        price: 1299,
+        image: "images/art19.jpg"
+    },
+
+    {
+        name: "Special Custom Art",
+        price: 1499,
+        image: "images/art20.jpg"
+    }
+
+];
+
+
+
+// SELECTED PRODUCT
+
+let selectedProduct = null;
+
+
+
+// OPEN PRODUCT DETAILS
+
+function openProduct(index) {
+
+    selectedProduct = products[index];
+
+
+    document.getElementById("productsSection")
+        .style.display = "none";
+
+
+    document.getElementById("productDetail")
+        .style.display = "flex";
+
+
+    document.getElementById("detailImage").src =
+        selectedProduct.image;
+
+
+    document.getElementById("detailName").innerText =
+        selectedProduct.name;
+
+
+    document.getElementById("detailPrice").innerText =
+        "₹" + selectedProduct.price;
+
+
+    document.getElementById("quantity").value = 1;
+
+
+    document.getElementById("customization").value = "";
+
+
+    document.getElementById("orderMessage").innerHTML = "";
+
+
+    document.getElementById("buyButton").disabled = false;
+
+    document.getElementById("buyButton").innerText = "Order Now ♡";
+
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+
+// CHANGE QUANTITY
+
+function changeQuantity(value) {
+
+    const quantityInput =
+        document.getElementById("quantity");
+
+
+    let quantity = parseInt(quantityInput.value);
+
+
+    quantity = quantity + value;
+
+
+    if (quantity < 1) {
+
+        quantity = 1;
+
+    }
+
+
+    quantityInput.value = quantity;
+
+}
+
+
+
+// BACK TO PRODUCTS
+
+function backToProducts() {
+
+
+    document.getElementById("productDetail")
+        .style.display = "none";
+
+
+    document.getElementById("productsSection")
+        .style.display = "block";
+
+
+    document.body.style.overflow = "auto";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+// ADD TO CART
+
+function addToCart() {
+
+
+    const name = selectedProduct.name;
+
+
+    const quantity =
+        parseInt(document.getElementById("quantity").value);
+
+
+    const customization =
+        document.getElementById("customization").value;
+
+
+    const cartItem = {
+
+        name: name,
+
+        price: selectedProduct.price,
+
+        image: selectedProduct.image,
+
+        quantity: quantity,
+
+        customization: customization
+
+    };
+
+
+    let cart =
+        JSON.parse(localStorage.getItem("artsCart")) || [];
+
+
+    cart.push(cartItem);
+
+
+    localStorage.setItem(
+        "artsCart",
+        JSON.stringify(cart)
+    );
+
+
+    document.getElementById("orderMessage").innerHTML =
+
+        "✓ " + name + " × " + quantity +
+
+        "<br>Successfully added to cart! ♡";
+
+}
+
+
+
+// ORDER NOW - EMAILJS INTEGRATION
+
+async function buyNow() {
+
+
+    if (!selectedProduct) {
+        return;
+    }
+
+
+    const name = selectedProduct.name;
+
+
+    const quantity =
+        parseInt(document.getElementById("quantity").value);
+
+
+    const customization =
+        document.getElementById("customization").value;
+
+
+    const total =
+        selectedProduct.price * quantity;
+
+
+    const buyButton =
+        document.getElementById("buyButton");
+
+
+    const orderMessage =
+        document.getElementById("orderMessage");
+
+
+    // PREVENT MULTIPLE CLICKS
+
+    buyButton.disabled = true;
+
+    buyButton.innerText = "Sending Order...";
+
+
+    orderMessage.innerHTML =
+        "Please wait... Sending your order ♡";
+
+
+    // MATCHING YOUR EMAILJS TEMPLATE VARIABLES
+
+    const templateParams = {
+
+        product_name: name,
+
+        product_price: selectedProduct.price,
+
+        product_quantity: quantity,
+
+        total_price: total,
+
+        customization: customization || "None"
+
+    };
+
+
+    try {
+
+
+        // SEND ORDER DETAILS TO EMAIL
+
+        await emailjs.send(
+
+            "service_nko8lyd",
+
+            "template_uua1ug9",
+
+            templateParams
+
+        );
+
+
+        // EMAIL SUCCESS MESSAGE
+
+        orderMessage.innerHTML =
+
+            "✓ Order placed successfully! ♡" +
+
+            "<br>Product Name: " + name +
+
+            "<br>Product Price: ₹" + selectedProduct.price +
+
+            "<br>Quantity: " + quantity +
+
+            "<br>Total Price: ₹" + total +
+
+            "<br>Customization: " +
+
+            (customization || "None") +
+
+            "<br><br>✓ Order details sent successfully!";
+
+
+        buyButton.innerText = "Order Placed ✓";
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error("EmailJS Error:", error);
+
+
+        orderMessage.innerHTML =
+
+            "⚠ Sorry! Email could not be sent." +
+
+            "<br>Please try again.";
+
+
+        buyButton.disabled = false;
+
+        buyButton.innerText = "Order Now ♡";
+
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
